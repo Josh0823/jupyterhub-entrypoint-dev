@@ -8,7 +8,7 @@
 import os
 import sys
 from tornado import ioloop, web
-from jinja2 import ChoiceLoader, FileSystemLoader, PrefixLoader
+from jinja2 import FileSystemLoader
 
 from traitlets import Bool, Dict, Integer, List, Unicode, default
 from traitlets.config import Application, Configurable
@@ -116,7 +116,8 @@ class EntrypointService(Application, Configurable):
     @default("template_paths")
     def _template_paths_default(self):
         return ["templates",
-                os.path.join(self.data_files_path, "templates")]
+                os.path.join(self.data_files_path, "templates"),
+                os.path.join(self.data_files_path, "entrypoint", "templates")]
 
     # initialize the web app by loading the config file, loading the template,
     # and setting the request handlers
@@ -135,18 +136,15 @@ class EntrypointService(Application, Configurable):
         self.init_ssl_context()
 
         # get the base data path to find the templates folder
-        base_path = self._template_paths_default()[0]
-        if base_path not in self.template_paths:
-            self.template_paths.append(base_path)
+        base_paths = self._template_paths_default()
+        for path in base_paths:
+            if path not in self.template_paths:
+                self.template_paths.append(path)
+
+        print(self.template_paths)
 
         # create a jinja loader to get the necessary html templates
-        loader = ChoiceLoader(
-            [
-                PrefixLoader(
-                    {"templates": FileSystemLoader([base_path])}, "/"),
-                FileSystemLoader(self.template_paths),
-            ]
-        )
+        loader = FileSystemLoader(self.template_paths)
 
         # create a dict of settings to pass on to the request handlers
         self.settings = {

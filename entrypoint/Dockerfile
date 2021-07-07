@@ -15,4 +15,4 @@ RUN \
 ADD docker-entrypoint.sh docker-entrypoint.sh
 RUN chmod +x docker-entrypoint.sh
 ENTRYPOINT ["./docker-entrypoint.sh"]
-CMD ["python3", "-u", "-m", "entrypoint_dev/jupyterhub_entrypoint"]
+CMD ["python3", "-u", "-m", "jupyterhub_entrypoint"]

@@ -1,5 +1,5 @@
-from image_handler import APIShifterImageHandler
-from validate import SSHValidator
+from custom.image_handler import APIShifterImageHandler
+from custom.validate import SSHValidator
 
 
 c.EntrypointService.systems = [
@@ -18,6 +18,8 @@ c.EntrypointService.additional_handlers = [
 ]
 
 c.APIBaseHandler.validator = SSHValidator()
+
+c.EntrypointService.template_paths = ['/Users/josh/miniconda3/envs/test-hub/share/jupyterhub/entrypoint/templates']
 
 
 # Configuration file for application.
