@@ -1,0 +1,78 @@
+services:
+  entrypoint:
+    environment: 
+      JUPYTERHUB_API_TOKEN_FILE: /run/secrets/entrypoint_api_token
+      JUPYTERHUB_API_URL: http://jupyterhub:8081/hub/api
+      HUB_PROFILES_TOKEN_FILE: /run/secrets/hub_profiles_token
+      SHIFTER_API_TOKEN_FILE: /run/secrets/shifter_api_token
+      SHIFTER_API_HOST: http://shifter:8000
+    image: entrypoint
+    secrets:
+      - entrypoint_api_token
+      - hub_profiles_token
+      - shifter_api_token
+    volumes:
+      - ./entrypoint:/app
+      - ./entrypoint/entrypoint_dev/data:/data
+      - certs-volume:/certs
+    working_dir: /app
+    entrypoint: ./docker-entrypoint.sh
+    command: sh -c "cd entrypoint_dev && python3 -u -m jupyterhub_entrypoint"
+  jupyterhub:
+    environment:
+      CONFIGPROXY_AUTH_TOKEN_FILE: /run/secrets/configproxy_auth_token
+      HUB_PROFILES_TOKEN_FILE: /run/secrets/hub_profiles_token
+      ENTRYPOINT_API_TOKEN_FILE: /run/secrets/entrypoint_api_token
+    image: hub
+    secrets:
+      - configproxy_auth_token
+      - hub_profiles_token
+      - entrypoint_api_token
+      - creds
+      - creds-cert.pub
+    volumes: 
+      - ${PWD}/hub/jupyterhub_config.py:/srv/jupyterhub/jupyterhub_config.py
+      - certs-volume:/certs
+  proxy:
+    environment:
+      CONFIGPROXY_AUTH_TOKEN_FILE: /run/secrets/configproxy_auth_token
+    image: jupyterhub/configurable-http-proxy
+    ports:
+      - "8000:8000"
+    secrets:
+      - configproxy_auth_token
+  cori:
+    image: cori
+    secrets:
+      - creds.pub
+    volumes:
+      - ${PWD}/cori/srv:/root
+      - ${PWD}/cori/home:/home
+  perlmutter:
+    image: perlmutter
+    secrets:
+      - creds.pub
+    volumes:
+      - ${PWD}/cori/srv:/root
+      - ${PWD}/cori/home:/home
+  shifter:
+    image: shifter
+    secrets:
+      - configproxy_auth_token
+secrets:
+  configproxy_auth_token:
+    file: secrets/configproxy-auth-token.txt
+  hub_profiles_token:
+    file: secrets/hub-profiles-token.txt
+  shifter_api_token:
+    file: secrets/shifter-api-token.txt
+  entrypoint_api_token:
+    file: secrets/entrypoint-api-token.txt
+  creds:
+    file: secrets/creds
+  creds.pub:
+    file: secrets/creds.pub
+  creds-cert.pub:
+    file: secrets/creds-cert.pub
+volumes:
+  certs-volume:
