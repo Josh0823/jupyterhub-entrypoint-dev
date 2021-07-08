@@ -1,21 +1,18 @@
 # JupyterHub Entrypoint Service
 
-This is a custom entrypoint service for JupyterHub that maintains a registry 
-of entrypoints to launch Jupyter notebooks in through a REST API. Users can
-add new entrypoints such as conda envs or make their own through bash scripts,
-and then add these entrypoints to the registry. This allows WrapSpawners to 
-query the user's preference and launch in that particular environment by
-including a pre-launch hook.
+This is a development environment for the jupyterhub-entrypoint service. It consists of numerous docker containers that talk to one another to simulate NERSC's deployment of JupyterHub.
 
-Originally developed for use at NERSC.
+The following containers are included
+- hub: container that runs JupyterHub. Manages all services
+- entrypoint: container that runs the jupyterhub-entrypoint service
+- cori & perlmutter: containers used to mimic the Cori and Perlmutter systems at NERSC. Used to test validation for conda and script paths via ssh
+- shifter: container used to represent the shifter API at NERSC. Manages list of available shifter images for user
 
 ## Requirements
 
 - jupyterhub
 - jinja2
 - tornado
-
-#### Optional dependencies (for NERSC use)
 - aiocache
 - asyncssh
 
