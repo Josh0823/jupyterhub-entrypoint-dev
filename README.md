@@ -1,6 +1,6 @@
 # JupyterHub Entrypoint Service
 
-This is a development environment for the jupyterhub-entrypoint service. It consists of numerous docker containers that talk to one another to simulate NERSC's deployment of JupyterHub.
+This is a development environment for the <a href="https://github.com/Josh0823/jupyterhub-entrypoint" target="_blank" rel="noopener noreferrer">jupyterhub-entrypoint service</a>. It consists of numerous docker containers that talk to one another to simulate NERSC's deployment of JupyterHub.
 
 The following containers are included
 - hub: container that runs JupyterHub. Manages all services
