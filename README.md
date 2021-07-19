@@ -4,7 +4,7 @@ This is a development environment for the jupyterhub-entrypoint service. It cons
 
 The following containers are included
 - hub: container that runs JupyterHub. Manages all services
-- entrypoint: container that runs the jupyterhub-entrypoint service
+- jupyterhub-entrypoint: container that runs the jupyterhub-entrypoint service, exists a seperate repo
 - cori & perlmutter: containers used to mimic the Cori and Perlmutter systems at NERSC. Used to test validation for conda and script paths via ssh
 - shifter: container used to represent the shifter API at NERSC. Manages list of available shifter images for user
 
@@ -19,7 +19,11 @@ The following containers are included
 ## Installation
 To use the development environment do the following:
 
+    # Clone the docker setup to local
     git clone https://github.com/Josh0823/jupyterhub-entrypoint-dev
     cd jupyterhub-entrypoint-dev
+    # Clone the entrypoint service source code to local
+    git clone https://github.com/Josh0823/jupyterhub-entrypoint.git
+    # Build the images and run the docker setup
     sh ./build.sh
     docker compose up
