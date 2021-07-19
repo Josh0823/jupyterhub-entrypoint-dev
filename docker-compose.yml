@@ -6,18 +6,18 @@ services:
       HUB_PROFILES_TOKEN_FILE: /run/secrets/hub_profiles_token
       SHIFTER_API_TOKEN_FILE: /run/secrets/shifter_api_token
       SHIFTER_API_HOST: http://shifter:8000
-    image: entrypoint
+    image: jupyterhub-entrypoint
     secrets:
       - entrypoint_api_token
       - hub_profiles_token
       - shifter_api_token
     volumes:
-      - ./entrypoint:/app
-      - ./entrypoint/entrypoint_dev/data:/data
+      - ./jupyterhub-entrypoint:/app
+      - ./jupyterhub-entrypoint/data:/data
       - certs-volume:/certs
     working_dir: /app
     entrypoint: ./docker-entrypoint.sh
-    command: sh -c "cd entrypoint_dev && python3 -u -m jupyterhub_entrypoint"
+    command: sh -c "python3 -u -m jupyterhub_entrypoint"
   jupyterhub:
     environment:
       CONFIGPROXY_AUTH_TOKEN_FILE: /run/secrets/configproxy_auth_token

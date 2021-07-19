@@ -34,7 +34,7 @@ cd shifter
 docker build  -t shifter:latest .
 cd ..
 
-echo Building entrypoint...
-cd entrypoint
-docker build -t entrypoint:latest .
+echo Building jupyterhub-entrypoint...
+cd jupyterhub-entrypoint
+docker build -t jupyterhub-entrypoint:latest .
 cd ..
