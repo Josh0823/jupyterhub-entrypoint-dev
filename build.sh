@@ -5,9 +5,9 @@ rm -rf secrets
 mkdir secrets
 cd secrets
 openssl rand -hex 32 > configproxy-auth-token.txt
-openssl rand -hex 32 > hub-profiles-token.txt
 openssl rand -hex 32 > shifter-api-token.txt
 openssl rand -hex 32 > entrypoint-api-token.txt
+openssl rand -hex 32 > entrypoint-auth-token.txt
 cd ..
 
 echo Generating ssh creds...

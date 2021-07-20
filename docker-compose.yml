@@ -3,13 +3,11 @@ services:
     environment: 
       JUPYTERHUB_API_TOKEN_FILE: /run/secrets/entrypoint_api_token
       JUPYTERHUB_API_URL: http://jupyterhub:8081/hub/api
-      HUB_PROFILES_TOKEN_FILE: /run/secrets/hub_profiles_token
       SHIFTER_API_TOKEN_FILE: /run/secrets/shifter_api_token
       SHIFTER_API_HOST: http://shifter:8000
     image: jupyterhub-entrypoint
     secrets:
       - entrypoint_api_token
-      - hub_profiles_token
       - shifter_api_token
     volumes:
       - ./jupyterhub-entrypoint:/app
@@ -21,13 +19,13 @@ services:
   jupyterhub:
     environment:
       CONFIGPROXY_AUTH_TOKEN_FILE: /run/secrets/configproxy_auth_token
-      HUB_PROFILES_TOKEN_FILE: /run/secrets/hub_profiles_token
       ENTRYPOINT_API_TOKEN_FILE: /run/secrets/entrypoint_api_token
+      ENTRYPOINT_AUTH_TOKEN_FILE: /run/secrets/entrypoint_auth_token
     image: hub
     secrets:
       - configproxy_auth_token
-      - hub_profiles_token
       - entrypoint_api_token
+      - entrypoint_auth_token
       - creds
       - creds-cert.pub
     volumes: 
@@ -62,12 +60,12 @@ services:
 secrets:
   configproxy_auth_token:
     file: secrets/configproxy-auth-token.txt
-  hub_profiles_token:
-    file: secrets/hub-profiles-token.txt
   shifter_api_token:
     file: secrets/shifter-api-token.txt
   entrypoint_api_token:
     file: secrets/entrypoint-api-token.txt
+  entrypoint_auth_token:
+    file: secrets/entrypoint-auth-token.txt
   creds:
     file: secrets/creds
   creds.pub:
