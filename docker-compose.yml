@@ -8,6 +8,7 @@ services:
     image: jupyterhub-entrypoint
     secrets:
       - entrypoint_api_token
+      - entrypoint_auth_token
       - shifter_api_token
     volumes:
       - ./jupyterhub-entrypoint:/app
