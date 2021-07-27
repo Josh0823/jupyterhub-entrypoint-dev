@@ -20,10 +20,10 @@ The following containers are included
 To use the development environment do the following:
 
     # Clone the docker setup to local
-    git clone https://github.com/Josh0823/jupyterhub-entrypoint-dev
+    git clone https://github.com/NERSC/jupyterhub-entrypoint-dev.git
     cd jupyterhub-entrypoint-dev
     # Clone the entrypoint service source code to local
-    git clone https://github.com/Josh0823/jupyterhub-entrypoint.git
+    git clone https://github.com/NERSC/jupyterhub-entrypoint.git
     # Build the images and run the docker setup
     sh ./build.sh
     docker compose up
